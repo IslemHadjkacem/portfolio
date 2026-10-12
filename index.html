@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Islem Hadj Kacem — Développeuse Full-Stack, Data &amp; BI</title>
+<meta name="description" content="Portfolio d'Islem Hadj Kacem : développement full-stack (React, ASP.NET Core), data et business intelligence (SSIS, SSAS, Power BI) et intégration de l'IA dans les processus métier.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>
+/* Thème et langue appliqués avant l'affichage (pas de flash) */
+(function(){
+  var d=document.documentElement,t=null,l=null;
+  try{t=localStorage.getItem('theme');l=localStorage.getItem('lang');}catch(e){}
+  if(!t) t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';
+  d.setAttribute('data-theme',t);
+  if(l==='en'||l==='fr') d.lang=l;
+})();
+</script>
+<style>
+/* ============================================================
+   1. COULEURS — clair / sombre
+   ============================================================ */
+:root{
+  /* Palette « prune & corail » sur fond crème */
+  --bg:#fbf7f3; --bg-alt:#f5eee8; --surface:#fffdfb; --line:#ecdfd6;
+  --ink:#1d1220; --body:#4a3f4d; --muted:#857882;
+  --primary:#4a1d5c; --on-primary:#ffffff;
+  --accent:#e5664a; --accent-ink:#c24a30; --accent-soft:#fde8e1;
+  --chip:#efe3ea; --chip-ink:#4f2e5c;
+  --icon-bg:#f3e8ef; --hl-bg:#fbf1ed;
+  --ok:#15803d; --err:#c2410c;
+  --shadow:0 1px 2px rgba(74,29,92,.05),0 10px 30px rgba(74,29,92,.07);
+  --shadow-lg:0 18px 44px rgba(74,29,92,.14);
+  --r:22px; --maxw:1200px; --nav-h:76px;
+}
+html[data-theme="dark"]{
+  --bg:#0f0a12; --bg-alt:#140e18; --surface:#1a1220; --line:#2c2034;
+  --ink:#f8f1f4; --body:#c9bcc6; --muted:#8f8090;
+  --primary:#ff8a6b; --on-primary:#2a0d06;
+  --accent:#ffa58a; --accent-ink:#ffa58a; --accent-soft:rgba(255,138,107,.13);
+  --chip:#261b2d; --chip-ink:#e3d2de;
+  --icon-bg:#241a2b; --hl-bg:#1f1625;
+  --ok:#4ade80; --err:#fb923c;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  --shadow-lg:0 18px 44px rgba(0,0,0,.5);
+}
+
+/* ============================================================
+   2. BASE
+   ============================================================ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 8px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--body);font-family:Geist,Inter,system-ui,-apple-system,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .3s,color .3s}
+h1,h2,h3{color:var(--ink);letter-spacing:-.025em;line-height:1.12;margin:0}
+p{margin:0 0 14px}
+a{color:inherit}
+img,video{display:block;max-width:100%}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;width:100%}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+
+/* Bilingue : on masque la langue inactive */
+html[lang="fr"] [data-l="en"],html[lang="en"] [data-l="fr"]{display:none!important}
+
+/* ============================================================
+   3. NAVIGATION
+   ============================================================ */
+.nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+.nav.scrolled{border-bottom-color:var(--line);box-shadow:0 4px 20px rgba(74,29,92,.06)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:18px;height:var(--nav-h)}
+.brand{font-size:28px;font-weight:800;text-decoration:none;letter-spacing:-.02em;background:linear-gradient(120deg,var(--primary) 30%,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.links{display:flex;gap:4px;list-style:none;margin:0;padding:0}
+.links a{text-decoration:none;color:var(--ink);font-size:16px;font-weight:450;padding:8px 12px;border-radius:10px;transition:color .2s,background .2s}
+.links a:hover,.links a.active{color:var(--accent-ink)}
+.tools{display:flex;align-items:center;gap:10px}
+.lang{display:flex;gap:4px}
+.lang button{border:0;background:none;color:var(--ink);font-weight:500;font-size:16px;padding:8px 14px;border-radius:8px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--primary);color:var(--on-primary)}
+.icon-btn{width:48px;height:48px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s}
+.icon-btn:hover{border-color:var(--accent)}
+.icon-btn .sun{display:none}
+html[data-theme="dark"] .icon-btn .sun{display:block}
+html[data-theme="dark"] .icon-btn .moon{display:none}
+.burger{display:none}
+
+/* ============================================================
+   4. BOUTONS
+   ============================================================ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 34px;border-radius:12px;text-decoration:none;font-weight:600;font-size:17px;border:2px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s,color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--primary);color:var(--on-primary);box-shadow:0 10px 24px rgba(74,29,92,.25)}
+.btn-outline{background:transparent;color:var(--primary);border-color:var(--primary)}
+.btn-accent{background:transparent;color:var(--accent-ink);border-color:var(--accent)}
+.btn-dark{background:#05080d;color:#fff}
+html[data-theme="dark"] .btn-dark{background:#f3f6fa;color:#05080d}
+.btn-sm{padding:11px 20px;font-size:16px;border-radius:10px}
+.btn[disabled]{opacity:.6;cursor:wait;transform:none}
+
+/* ============================================================
+   5. SECTIONS
+   ============================================================ */
+section{padding:110px 0}
+.sec-head{margin-bottom:56px}
+.sec-head h2{font-size:clamp(36px,5vw,64px);font-weight:800}
+.sec-head p{margin:14px 0 0;font-size:clamp(17px,1.8vw,21px);color:var(--muted)}
+.sec-head.center{text-align:center}
+.sec-head.split{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding-bottom:30px;border-bottom:1px solid var(--line)}
+.sec-head.split p{margin:0;font-size:16px;max-width:34ch;text-align:right}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s,background .3s}
+.card.lift:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.ico{width:48px;height:48px;border-radius:12px;background:var(--icon-bg);color:var(--primary);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+html[data-theme="dark"] .ico{color:var(--accent)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.tags li{font-size:14px;font-weight:500;padding:6px 13px;border-radius:999px;background:var(--chip);color:var(--chip-ink)}
+.hl{display:flex;flex-wrap:wrap;gap:6px 16px;list-style:none;padding:0;margin:0}
+.hl li{font-size:15px;font-weight:600;color:var(--accent-ink)}
+.hl li::before{content:"•";margin-right:6px}
+
+/* ============================================================
+   6. ACCUEIL
+   ============================================================ */
+.hero{padding:70px 0 110px;text-align:center;position:relative}
+.photo{position:relative;width:190px;height:190px;margin:0 auto 34px;padding:5px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));box-shadow:var(--shadow-lg)}
+.photo::before{content:"";position:absolute;inset:-70px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 18%,transparent),transparent 65%);z-index:-1}
+.photo .media{width:100%;height:100%;border-radius:50%;background:#fff;border:4px solid var(--surface)}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:10px 22px;border-radius:999px;background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent-ink);font-weight:500;font-size:17px;margin-bottom:36px}
+.hero h1{font-size:clamp(40px,7.4vw,104px);font-weight:800;letter-spacing:-.04em;margin-bottom:34px}
+.hero .sub{max-width:40ch;margin:0 auto 10px;font-size:clamp(19px,2.5vw,32px);font-weight:300;color:var(--body);line-height:1.4}
+.hero .tagline{font-size:clamp(20px,2.6vw,34px);font-weight:700;color:var(--accent);margin-bottom:46px}
+.cta{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.status{display:inline-flex;align-items:center;gap:10px;margin-top:34px;font-size:15px;color:var(--muted)}
+.status i{width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+
+/* ============================================================
+   7. À PROPOS
+   ============================================================ */
+.about{display:grid;grid-template-columns:1fr 1.12fr;gap:64px;padding-top:60px}
+.about-txt{display:flex;flex-direction:column;justify-content:space-between}
+.about-txt .big{font-size:clamp(20px,2.3vw,30px);line-height:1.55;color:var(--body);margin:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;padding-top:34px;border-top:1px solid var(--line)}
+.stats b{display:block;font-size:42px;font-weight:700;color:var(--primary);line-height:1}
+html[data-theme="dark"] .stats b{color:var(--accent)}
+.stats span{font-size:15px;color:var(--muted)}
+.pillars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pillar{padding:30px}
+.pillar h3{font-size:20px;font-weight:600;margin:46px 0 12px}
+.pillar p{font-size:16px;color:var(--muted);margin:0}
+
+/* ============================================================
+   8. EXPÉRIENCE
+   ============================================================ */
+.xp{overflow:hidden;margin-bottom:26px}
+.xp-body{padding:40px 44px}
+.xp ul.pts{max-width:90ch}
+.date{display:inline-block;padding:6px 14px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);font-size:14px;font-weight:600;margin-bottom:16px}
+.xp h3{font-size:24px;font-weight:700;margin-bottom:8px}
+.org{color:var(--muted);font-size:16px;margin-bottom:18px}
+ul.pts{margin:0 0 22px;padding-left:20px}
+ul.pts li{margin-bottom:8px}
+ul.pts li::marker{color:var(--accent)}
+
+/* ============================================================
+   9. PROJETS
+   ============================================================ */
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin:-20px 0 40px}
+.filters button{font-size:15px;font-weight:500;padding:9px 20px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--body);cursor:pointer;transition:.2s}
+.filters button:hover{border-color:var(--accent);color:var(--accent-ink)}
+.filters button[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}
+.proj{padding:30px;display:flex;flex-direction:column;height:100%}
+.proj[hidden]{display:none}
+/* Cartes de même hauteur : titre, sous-titre et texte coupés, détail complet dans « Voir plus » */
+.proj h3{font-size:22px;font-weight:700;margin-bottom:10px;line-height:1.25;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.proj .psub{color:var(--muted);font-size:15px;margin-bottom:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.proj .pdesc{font-size:16px;color:var(--body);margin-bottom:22px;line-height:1.6;min-height:4.8em;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.proj .hl{display:none}
+.proj .tags{margin-top:auto;margin-bottom:22px}
+.proj .tags li:nth-child(n+3):not(.plus){display:none}
+.tags li.plus{background:transparent;border:1px dashed var(--line);color:var(--muted)}
+.dialog .tags li.plus{display:none}
+.more{display:inline-flex;align-items:center;gap:10px;background:none;border:0;padding:0;color:var(--primary);font-weight:600;font-size:16px;cursor:pointer;align-self:flex-start}
+html[data-theme="dark"] .more{color:var(--accent)}
+.more svg{width:17px;height:17px;transition:transform .2s}
+.more:hover svg{transform:translate(3px,-3px)}
+
+/* Fenêtre détail projet */
+.modal{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(10,18,30,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.modal.open{display:flex}
+.dialog{position:relative;width:100%;max-width:800px;max-height:90vh;overflow:auto;background:var(--surface);border-radius:30px;padding:46px 42px 40px;box-shadow:0 30px 80px rgba(0,0,0,.25);animation:pop .25s ease}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.close{position:absolute;top:30px;right:30px;width:44px;height:44px;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.close:hover{background:var(--icon-bg);color:var(--ink)}
+.eyebrow{font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--primary);margin-bottom:12px}
+html[data-theme="dark"] .eyebrow{color:var(--accent)}
+.dialog h3{font-size:clamp(28px,3.6vw,38px);font-weight:700;margin-bottom:12px;padding-right:50px}
+.dialog .psub{color:var(--muted);font-size:18px;margin-bottom:24px}
+.dialog .pdesc{font-size:18px;margin-bottom:28px}
+.dialog .media{aspect-ratio:16/9;margin-bottom:28px}
+.dialog h4{font-size:16px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin:0 0 14px}
+.dialog .tags{margin-bottom:34px}
+.dialog .tags li{background:var(--primary);color:var(--on-primary);font-weight:600}
+.dialog .hl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dialog .hl li{background:var(--hl-bg);border:1px solid var(--line);border-radius:14px;padding:16px;color:var(--ink);font-weight:500;font-size:17px}
+.dialog .hl li::before{content:none}
+
+/* ============================================================
+   10. FORMATION
+   ============================================================ */
+.edu{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.edu h3.col{display:flex;align-items:center;gap:12px;font-size:30px;font-weight:700;color:var(--primary);margin-bottom:26px}
+html[data-theme="dark"] .edu h3.col{color:var(--accent)}
+.edu h3.col svg{width:26px;height:26px}
+.degree{padding:30px;margin-bottom:22px;display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.degree h4{font-size:20px;font-weight:600;color:var(--ink);margin:0 0 6px;line-height:1.35}
+.degree .school{font-size:15px;color:var(--muted)}
+.pill{flex:0 0 auto;padding:8px 16px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);font-weight:500;font-size:16px;text-align:center;line-height:1.3}
+.cert{padding:22px 22px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:16px;border-radius:16px}
+.cert h4{font-size:18px;font-weight:600;color:var(--ink);margin:0}
+.cert small{display:block;color:var(--muted);font-size:14px;margin-top:3px}
+a.cert{text-decoration:none;color:inherit}
+a.cert:hover{border-color:var(--accent)}
+.verify{color:var(--accent-ink);font-weight:600}
+.yr{flex:0 0 auto;padding:4px 12px;border-radius:8px;background:var(--chip);color:var(--chip-ink);font-size:14px;font-weight:500}
+
+/* ============================================================
+   11. COMPÉTENCES
+   ============================================================ */
+.skills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}
+.skill{padding:30px}
+.skill h3{display:flex;align-items:center;gap:16px;font-size:22px;font-weight:600;margin-bottom:24px}
+.skill .tags li{font-weight:600}
+
+/* ============================================================
+   12. CONTACT
+   ============================================================ */
+.contact{background:var(--bg-alt);position:relative;overflow:hidden}
+.contact::before{content:"";position:absolute;width:620px;height:620px;right:-220px;top:-260px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 16%,transparent),transparent 65%);pointer-events:none}
+.c-wrap{position:relative;display:grid;grid-template-columns:.9fr 1.1fr;border-radius:30px;overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--line);background:var(--surface)}
+
+/* Panneau gauche */
+.c-side{position:relative;padding:52px 46px;color:#fff;background:linear-gradient(150deg,#4a1d5c 0%,#6b2a63 55%,#c24a30 120%);display:flex;flex-direction:column;overflow:hidden}
+.c-side::after{content:"";position:absolute;width:300px;height:300px;right:-110px;bottom:-110px;border-radius:50%;border:44px solid rgba(255,255,255,.07)}
+.c-kicker{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;padding:7px 15px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);font-size:14px;font-weight:500;margin-bottom:26px}
+.c-kicker i{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 4px rgba(74,222,128,.25)}
+.c-side h2{color:#fff;font-size:clamp(34px,4vw,50px);font-weight:800;letter-spacing:-.035em;margin-bottom:16px}
+.c-side h2 em{font-style:normal;color:#ffb39e}
+.c-side .c-lead{color:rgba(255,255,255,.8);font-size:17px;line-height:1.6;margin-bottom:34px}
+.c-list{list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:12px}
+.c-list a,.c-list div{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;color:#fff;text-decoration:none;transition:background .2s}
+.c-list a:hover{background:rgba(255,255,255,.1)}
+.c-list .ci{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.c-list small{display:block;font-size:13px;color:rgba(255,255,255,.65)}
+.c-list b{display:block;font-size:16px;font-weight:600;overflow-wrap:anywhere}
+.c-social{margin-top:auto;display:flex;gap:10px;position:relative;z-index:1}
+.c-social a{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;background:#fff;color:#4a1d5c;font-weight:600;font-size:15px;text-decoration:none;transition:transform .2s}
+.c-social a:hover{transform:translateY(-2px)}
+
+/* Formulaire */
+.cform{padding:52px 46px}
+.cform h3{font-size:26px;font-weight:700;margin-bottom:6px}
+.cform .lead{color:var(--muted);font-size:16px;margin-bottom:30px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{font-size:14px;font-weight:600;color:var(--ink)}
+.field label .opt{font-weight:400;color:var(--muted)}
+.field input,.field textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px;transition:border-color .2s,box-shadow .2s,background .2s}
+.field textarea{min-height:150px;resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 4px var(--accent-soft)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.fbot{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:26px}
+.fbot .btn{padding:15px 30px}
+.fmsg{margin:0;font-size:15px;font-weight:500}
+.fmsg.ok{color:var(--ok)}
+.fmsg.err{color:var(--err)}
+
+/* ============================================================
+   13. PIED DE PAGE
+   ============================================================ */
+footer{border-top:1px solid var(--line);padding:46px 0 34px}
+.f-top{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;padding-bottom:30px;border-bottom:1px solid var(--line)}
+.f-id{display:flex;align-items:center;gap:16px}
+.f-id .media{width:64px;height:64px;border-radius:50%;border:2px solid var(--line);background:#fff}
+.f-id b{display:block;color:var(--ink);font-size:20px;font-weight:600}
+.f-id span{color:var(--muted)}
+.f-contact{display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.f-contact a{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.f-contact a:hover{color:var(--accent-ink)}
+.f-social a{color:var(--ink);display:flex}
+.f-social svg{width:30px;height:30px}
+.f-bot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:26px;font-size:16px;color:var(--body)}
+
+/* ============================================================
+   14. MÉDIAS, CARROUSEL, ZOOM
+   ============================================================ */
+.media{position:relative;background:var(--icon-bg);overflow:hidden;border-radius:16px}
+.media img,.media video{width:100%;height:100%;object-fit:contain;background:#0b1220}
+.photo .media img,.f-id .media img{object-fit:cover;object-position:50% 0;background:none;transform:translateY(9%)}
+.media[data-empty="1"]::after{content:attr(data-hint);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;font-size:12px;font-weight:500;color:var(--muted);background:repeating-linear-gradient(45deg,var(--icon-bg),var(--icon-bg) 10px,var(--chip) 10px,var(--chip) 20px)}
+.media[data-empty="1"] img,.media[data-empty="1"] video{visibility:hidden}
+.f-id .media[data-empty="1"]::after{content:"IHK";font-size:16px;font-weight:700}
+.zoomable{cursor:zoom-in}
+.slider{position:relative;width:100%;border-radius:16px;overflow:hidden;background:#0b1220}
+.slides{display:flex;height:100%;transition:transform .38s cubic-bezier(.2,.7,.3,1)}
+.slides>.media{flex:0 0 100%;min-width:100%;height:100%;border-radius:0}
+.slider .nav-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:38px;height:38px;border-radius:50%;border:0;cursor:pointer;background:rgba(255,255,255,.94);box-shadow:0 3px 12px rgba(0,0,0,.22);font-size:20px;line-height:1;color:#0a0f1a;display:flex;align-items:center;justify-content:center}
+.slider .prev{left:12px}.slider .next{right:12px}
+.slider .dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:8px;z-index:2}
+.slider .dots button{width:9px;height:9px;padding:0;border:0;border-radius:50%;cursor:pointer;background:rgba(255,255,255,.6);transition:width .25s}
+.slider .dots button[aria-current="true"]{width:24px;border-radius:5px;background:#fff}
+.slider .count{position:absolute;top:12px;right:12px;z-index:2;padding:4px 11px;border-radius:999px;background:rgba(10,15,26,.62);color:#fff;font-size:12px;font-weight:600}
+.lightbox{position:fixed;inset:0;z-index:80;background:rgba(5,8,13,.94);display:none;align-items:center;justify-content:center;padding:24px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:94vw;max-height:88vh;object-fit:contain;border-radius:12px}
+.lightbox button{position:absolute;top:18px;right:20px;background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:9px 16px;border-radius:999px;cursor:pointer}
+
+/* ============================================================
+   15. ANIMATIONS
+   ============================================================ */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1)}
+.reveal.seen{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+
+/* ============================================================
+   16. RESPONSIVE
+   ============================================================ */
+@media (max-width:1100px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .skills{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .about{grid-template-columns:1fr;gap:44px}
+}
+@media (max-width:980px){
+  .burger{display:flex}
+  .links{position:fixed;top:var(--nav-h);left:0;right:0;flex-direction:column;gap:2px;background:var(--surface);border-bottom:1px solid var(--line);padding:12px 20px 22px;box-shadow:var(--shadow-lg);transform:translateY(-10px);opacity:0;visibility:hidden;transition:transform .22s,opacity .22s,visibility .22s}
+  .links.open{transform:none;opacity:1;visibility:visible}
+  .links a{display:block;padding:14px 16px;font-size:17px}
+    .edu{grid-template-columns:1fr;gap:20px}
+  .c-wrap{grid-template-columns:1fr}
+  .f-contact{align-items:flex-start}
+}
+@media (max-width:700px){
+  :root{--nav-h:66px;--r:18px}
+  .wrap{padding:0 18px}
+  section{padding:70px 0}
+  .hero{padding:44px 0 70px}
+  .brand{font-size:23px}
+  .nav-cta{display:none}
+  .lang button{padding:7px 10px;font-size:15px}
+  .icon-btn{width:42px;height:42px}
+  .tools{gap:6px}
+  .photo{width:160px;height:160px}
+  .badge{font-size:14px;padding:8px 16px}
+  .cta{flex-direction:column}
+  .btn{width:100%}
+  .sec-head.split{flex-direction:column;align-items:flex-start}
+  .sec-head.split p{text-align:left}
+  .grid,.skills,.pillars,.fgrid{grid-template-columns:1fr}
+  .proj,.skill,.pillar,.degree{padding:24px}
+  .c-side,.cform{padding:32px 22px}
+  .c-list a,.c-list div{padding:10px 4px}
+  .c-list b{font-size:14.5px}
+  .c-wrap{border-radius:22px}
+  .proj .pdesc{min-height:0}
+  .pillar h3{margin-top:28px}
+  .xp-body{padding:26px 22px}
+  .stats b{font-size:34px}
+  .dialog{padding:34px 22px 26px;border-radius:22px}
+  .close{top:18px;right:14px}
+  .dialog .hl{grid-template-columns:1fr}
+  .degree{flex-direction:column}
+  .c-social a{flex:1;justify-content:center}
+}
+@media print{
+  .nav,.filters,.cta,.modal,.lightbox,.slider .nav-btn,.slider .dots,.cform{display:none}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Icônes (style Lucide) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M19 3v4M17 5h4M19 17v4M17 19h4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.910a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.050-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.720a1.17 1.17 0 0 1 1.52 0C14.51 3.810 17 5 19 5a1 1 0 0 1 1 1z"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+    <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></symbol>
+    <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+    <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></symbol>
+  </defs>
+</svg>
+
+<!-- NAVIGATION -->
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">Islem</a>
+    <nav aria-label="Navigation principale">
+      <ul class="links" id="menu">
+        <li><a href="#top"><span data-l="fr">Accueil</span><span data-l="en">Home</span></a></li>
+        <li><a href="#apropos"><span data-l="fr">À propos</span><span data-l="en">About</span></a></li>
+        <li><a href="#experience"><span data-l="fr">Expérience</span><span data-l="en">Experience</span></a></li>
+        <li><a href="#projets"><span data-l="fr">Projets</span><span data-l="en">Projects</span></a></li>
+        <li><a href="#formation"><span data-l="fr">Formation</span><span data-l="en">Education</span></a></li>
+        <li><a href="#competences"><span data-l="fr">Compétences</span><span data-l="en">Skills</span></a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="tools">
+      <div class="lang" role="group" aria-label="Langue">
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-set-lang="fr" aria-pressed="true">FR</button>
+      </div>
+      <button class="icon-btn" id="theme" type="button" aria-label="Changer de thème">
+        <svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg>
+      </button>
+      <button class="icon-btn burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>
+      <a class="btn btn-primary btn-sm nav-cta" href="#contact"><span data-l="fr">Me contacter</span><span data-l="en">Get in touch</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ACCUEIL -->
+<section class="hero">
+  <div class="wrap">
+    <div class="photo reveal">
+      <div class="media" data-hint="images/isleemm.png"><img src="images/isleemm.png" alt="Islem Hadj Kacem"></div>
+    </div>
+    <div class="reveal">
+      <span class="badge"><svg class="i"><use href="#i-sparkles"/></svg>
+        <span data-l="fr">Full-Stack · Data &amp; BI · IA appliquée</span><span data-l="en">Full-Stack · Data &amp; BI · Applied AI</span></span>
+    </div>
+    <h1 class="reveal"><span data-l="fr">Bonjour, je suis Islem Hadj Kacem</span><span data-l="en">Hi, I'm Islem Hadj Kacem</span></h1>
+    <p class="sub reveal">
+      <span data-l="fr">Développeuse full-stack et data/BI : des applications React et ASP.NET Core aux entrepôts de données et tableaux de bord, avec l'IA au service des processus métier.</span>
+      <span data-l="en">Full-stack and data/BI developer: from React and ASP.NET Core apps to data warehouses and dashboards, with AI serving real business processes.</span>
+    </p>
+    <p class="tagline reveal"><span data-l="fr">L'IA propose, le backend vérifie.</span><span data-l="en">AI suggests, the backend verifies.</span></p>
+    <div class="cta reveal">
+      <a class="btn btn-primary" href="#projets"><span data-l="fr">Voir mes projets</span><span data-l="en">Explore my work</span></a>
+      <a class="btn btn-outline" href="#contact"><span data-l="fr">Me contacter</span><span data-l="en">Get in touch</span></a>
+      <a class="btn btn-accent" href="https://github.com/IslemHadjkacem" target="_blank" rel="noopener"><svg class="i"><use href="#i-github"/></svg>GitHub</a>
+    </div>
+    <div class="status reveal"><i></i><span data-l="fr">Disponible pour un poste · Sfax, Tunisie</span><span data-l="en">Open to opportunities · Sfax, Tunisia</span></div>
+  </div>
+</section>
+
+<!-- À PROPOS -->
+<section id="apropos">
+  <div class="wrap">
+    <div class="sec-head split reveal">
+      <h2><span data-l="fr">À propos</span><span data-l="en">About Me</span></h2>
+      <p><span data-l="fr">De la donnée brute à l'application intelligente.</span><span data-l="en">From raw data to intelligent applications.</span></p>
+    </div>
+    <div class="about">
+      <div class="about-txt reveal">
+        <p class="big">
+          <span data-l="fr">Diplômée d'un mastère en sciences et ingénierie des données et en 3ᵉ année du cycle d'ingénieur à l'IIT Sfax, je relie développement web et données : d'un pipeline ETL sous SSIS à un composant React. Curieuse, autonome et rigoureuse.</span>
+          <span data-l="en">With a professional master's in data science &amp; engineering and in my 3rd year of engineering school at IIT Sfax, I bridge web development and data — from an SSIS ETL pipeline to a React component. Curious, autonomous and rigorous.</span>
+        </p>
+        <div class="stats">
+          <div><b>5</b><span data-l="fr">Expériences</span><span data-l="en">Experiences</span></div>
+          <div><b>7</b><span data-l="fr">Projets académiques</span><span data-l="en">Academic projects</span></div>
+          <div><b>4</b><span data-l="fr">Langues</span><span data-l="en">Languages</span></div>
+        </div>
+      </div>
+      <div class="pillars">
+        <div class="card lift pillar reveal"><span class="ico"><svg class="i"><use href="#i-code"/></svg></span>
+          <h3><span data-l="fr">Développement full-stack</span><span data-l="en">Full-Stack Development</span></h3>
+          <p><span data-l="fr">Frontends React/TypeScript, backends ASP.NET Core et Spring Boot, API REST.</span><span data-l="en">React/TypeScript frontends, ASP.NET Core and Spring Boot backends, REST APIs.</span></p></div>
+        <div class="card lift pillar reveal"><span class="ico"><svg class="i"><use href="#i-cpu"/></svg></span>
+          <h3><span data-l="fr">IA appliquée</span><span data-l="en">Applied AI</span></h3>
+          <p><span data-l="fr">LLM auto-hébergés (Ollama), RAG, génération déterministe validée côté serveur.</span><span data-l="en">Self-hosted LLMs (Ollama), RAG, deterministic generation validated server-side.</span></p></div>
+        <div class="card lift pillar reveal"><span class="ico"><svg class="i"><use href="#i-chart"/></svg></span>
+          <h3>Data &amp; BI</h3>
+          <p><span data-l="fr">Entrepôts de données, ETL sous SSIS et Talend, cubes OLAP et tableaux de bord Power BI.</span><span data-l="en">Data warehouses, ETL with SSIS and Talend, OLAP cubes and Power BI dashboards.</span></p></div>
+        <div class="card lift pillar reveal"><span class="ico"><svg class="i"><use href="#i-shield"/></svg></span>
+          <h3>Privacy-first</h3>
+          <p><span data-l="fr">Seules les métadonnées sont transmises au modèle, jamais les données métier.</span><span data-l="en">Only metadata is sent to the model, never the business data itself.</span></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPÉRIENCE -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2><span data-l="fr">Expériences professionnelles</span><span data-l="en">Professional Experience</span></h2>
+      <p><span data-l="fr">Stages en entreprise, du besoin métier à la démo.</span><span data-l="en">Industry internships, from business need to working demo.</span></p>
+    </div>
+
+    <article class="card xp reveal">
+      <div class="xp-body">
+        <span class="date"><span data-l="fr">Juillet – Septembre 2026</span><span data-l="en">July – September 2026</span></span>
+        <h3><span data-l="fr">Générateur automatique d'entrepôt de données assisté par IA</span><span data-l="en">AI-assisted automatic data warehouse generator</span></h3>
+        <p class="org"><span data-l="fr">Stage de perfectionnement (ingénieur) · Acteol, Sfax</span><span data-l="en">Engineering internship · Acteol, Sfax</span></p>
+        <ul class="pts" data-l="fr">
+          <li>Application web permettant à un utilisateur non technique de déposer des fichiers plats (CSV, Excel, TXT) et d'obtenir un entrepôt SQL Server exploitable en BI.</li>
+          <li>Détection automatique des types, création dynamique des tables de staging et chargement par Bulk Insert.</li>
+          <li>Interface conversationnelle de validation itérative du modèle dimensionnel proposé par l'IA, avant génération des scripts DDL.</li>
+          <li>LLM auto-hébergé, approche privacy-first : seules les métadonnées sont transmises au modèle.</li>
+        </ul>
+        <ul class="pts" data-l="en">
+          <li>Web app letting non-technical users upload flat files (CSV, Excel, TXT) and get a BI-ready SQL Server data warehouse.</li>
+          <li>Automatic type detection, dynamic staging tables and Bulk Insert loading.</li>
+          <li>Conversational interface to iteratively validate the AI-proposed dimensional model before DDL scripts are generated.</li>
+          <li>Self-hosted LLM, privacy-first: only metadata is sent to the model.</li>
+        </ul>
+        <ul class="tags"><li>React</li><li>TypeScript</li><li>ASP.NET Core</li><li>C#</li><li>SQL Server</li><li>LLM</li><li>Data warehouse</li><li>ETL</li></ul>
+      </div>
+    </article>
+
+    <article class="card xp reveal">
+      <div class="xp-body">
+        <span class="date"><span data-l="fr">Février – Mai 2026</span><span data-l="en">February – May 2026</span></span>
+        <h3><span data-l="fr">Générateur web de requêtes MDX assisté par IA</span><span data-l="en">AI-assisted MDX query generator</span></h3>
+        <p class="org"><span data-l="fr">Stage de fin d'études (Mastère) · Acteol, Sfax</span><span data-l="en">Master's final internship · Acteol, Sfax</span></p>
+        <ul class="pts" data-l="fr">
+          <li>Plateforme web décisionnelle pour explorer les cubes OLAP et générer automatiquement des requêtes MDX.</li>
+          <li>Modèle de langage local (Ollama) couplé à une approche RAG pour proposer des analyses métier pertinentes.</li>
+          <li>Moteur de génération déterministe et sécurisé, avec validation côté backend avant exécution.</li>
+          <li>Interface d'exploration : visualisation des résultats, création de rapports, gestion des analyses.</li>
+        </ul>
+        <ul class="pts" data-l="en">
+          <li>Decision-support web platform to explore OLAP cubes and automatically generate MDX queries.</li>
+          <li>Local language model (Ollama) combined with RAG to suggest relevant business analyses.</li>
+          <li>Deterministic, secure generation engine with backend validation before execution.</li>
+          <li>Exploration interface: result visualization, report creation, analysis management.</li>
+        </ul>
+        <ul class="tags"><li>React.js</li><li>TypeScript</li><li>C#</li><li>ASP.NET Core</li><li>Ollama</li><li>LLM</li><li>RAG</li><li>MDX</li><li>SQL Server</li></ul>
+      </div>
+    </article>
+
+    <article class="card xp reveal">
+      <div class="xp-body">
+        <span class="date"><span data-l="fr">Juillet – Août 2025</span><span data-l="en">July – August 2025</span></span>
+        <h3><span data-l="fr">Dashboard de gestion des demandes de réservation</span><span data-l="en">Booking request management dashboard</span></h3>
+        <p class="org"><span data-l="fr">Stage d'initiation · Clinisys</span><span data-l="en">Introductory internship · Clinisys</span></p>
+        <ul class="pts" data-l="fr">
+          <li>Tableau de bord interactif pour le suivi et l'analyse des demandes de réservation médicales.</li>
+          <li>Filtres dynamiques (médecin, motif, état, période) avec actualisation automatique des indicateurs.</li>
+          <li>Backend Spring Boot et frontend React pour la visualisation en temps réel des statistiques.</li>
+        </ul>
+        <ul class="pts" data-l="en">
+          <li>Interactive dashboard to track and analyze medical booking requests.</li>
+          <li>Dynamic filters (doctor, reason, status, period) with automatic KPI refresh.</li>
+          <li>Spring Boot backend and React frontend for real-time statistics.</li>
+        </ul>
+        <ul class="tags"><li>React</li><li>Spring Boot</li><li>Java</li><li>REST API</li><li>SQL Server</li><li>Git</li></ul>
+      </div>
+    </article>
+
+    <article class="card xp reveal">
+      <div class="xp-body">
+        <span class="date"><span data-l="fr">Janvier – Mai 2024</span><span data-l="en">January – May 2024</span></span>
+        <h3><span data-l="fr">Gestion des workflows avec formulaires dynamiques</span><span data-l="en">Workflow management with dynamic forms</span></h3>
+        <p class="org"><span data-l="fr">Projet de fin d'études (Licence) · All Soft Multimédia</span><span data-l="en">Bachelor's final project · All Soft Multimédia</span></p>
+        <ul class="pts" data-l="fr">
+          <li>Plateforme web d'automatisation et de gestion des processus métier.</li>
+          <li>Système de formulaires dynamiques adaptables aux besoins de chaque métier.</li>
+          <li>Optimisation des flux de travail et du suivi des opérations.</li>
+        </ul>
+        <ul class="pts" data-l="en">
+          <li>Web platform to automate and manage business processes.</li>
+          <li>Dynamic form system adaptable to each team's needs.</li>
+          <li>Streamlined workflows and operations tracking.</li>
+        </ul>
+        <ul class="tags"><li>Angular</li><li>Laravel</li><li>TypeScript</li><li>MySQL</li><li>Power BI</li></ul>
+      </div>
+    </article>
+
+    <article class="card xp reveal">
+      <div class="xp-body">
+        <span class="date"><span data-l="fr">Juin – Août 2023</span><span data-l="en">June – August 2023</span></span>
+        <h3><span data-l="fr">Site vitrine</span><span data-l="en">Company showcase website</span></h3>
+        <p class="org"><span data-l="fr">Stage · Taguini Marketing</span><span data-l="en">Internship · Taguini Marketing</span></p>
+        <ul class="pts" data-l="fr">
+          <li>Conception et développement du site de présentation des services de l'entreprise.</li>
+          <li>Interfaces responsives adaptées aux différents supports.</li>
+        </ul>
+        <ul class="pts" data-l="en">
+          <li>Designed and built the website presenting the company's services.</li>
+          <li>Responsive interfaces for all screen sizes.</li>
+        </ul>
+        <ul class="tags"><li>Angular</li><li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>Bootstrap</li></ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- PROJETS -->
+<section id="projets">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2><span data-l="fr">Projets académiques</span><span data-l="en">Academic Projects</span></h2>
+      <p><span data-l="fr">Projets d'études couvrant le web, la BI, le machine learning et les réseaux.</span><span data-l="en">Academic projects across web development, BI, machine learning and networking.</span></p>
+    </div>
+    <div class="filters reveal" role="group" aria-label="Filtrer">
+      <button type="button" aria-pressed="true" data-filter="tous"><span data-l="fr">Tous</span><span data-l="en">All</span></button>
+      <button type="button" aria-pressed="false" data-filter="bi">Business Intelligence</button>
+      <button type="button" aria-pressed="false" data-filter="ia"><span data-l="fr">IA &amp; ML</span><span data-l="en">AI &amp; ML</span></button>
+      <button type="button" aria-pressed="false" data-filter="web">Web</button>
+      <button type="button" aria-pressed="false" data-filter="reseau"><span data-l="fr">Réseaux</span><span data-l="en">Networking</span></button>
+    </div>
+    <div class="grid">
+      <article class="card lift proj reveal" data-cat="web">
+        <h3>MyBookstore</h3>
+        <p class="psub"><span data-l="fr">Librairie en ligne · 2026</span><span data-l="en">Online bookstore · 2026</span></p>
+        <p class="pdesc"><span data-l="fr">Site vitrine et back-office Symfony : recherche multicritère, panier avec validation de commande, rôles hiérarchiques et gestion du catalogue avec images de couverture.</span><span data-l="en">Symfony storefront and back office: multi-criteria search, cart with order checkout, role hierarchy and catalog management with cover images.</span></p>
+        <ul class="tags"><li>Symfony</li><li>PHP</li><li>Doctrine</li><li>Twig</li><li>MySQL</li></ul>
+        <ul class="hl">
+          <li><span data-l="fr">Recherche multicritère</span><span data-l="en">Multi-criteria search</span></li>
+          <li><span data-l="fr">Panier &amp; commandes</span><span data-l="en">Cart &amp; orders</span></li>
+          <li><span data-l="fr">Rôles hiérarchiques</span><span data-l="en">Role hierarchy</span></li>
+          <li><span data-l="fr">Back-office catalogue</span><span data-l="en">Catalog back office</span></li>
+        </ul>
+        <button class="more" type="button"><span data-l="fr">Voir plus</span><span data-l="en">See more</span><svg class="i"><use href="#i-arrow"/></svg></button>
+      </article>
+
+      <article class="card lift proj reveal" data-cat="bi web">
+        <h3><span data-l="fr">Analyse décisionnelle des ventes</span><span data-l="en">Sales Decision Analytics</span></h3>
+        <p class="psub"><span data-l="fr">Chaîne BI complète · Avril 2026</span><span data-l="en">End-to-end BI pipeline · April 2026</span></p>
+        <p class="pdesc"><span data-l="fr">ETL sous SSIS, entrepôt de données, cube OLAP avec SSAS et interface React connectée à une API ASP.NET.</span><span data-l="en">SSIS ETL, data warehouse, SSAS OLAP cube and a React interface connected to an ASP.NET API.</span></p>
+        <ul class="tags"><li>SSIS</li><li>SSAS</li><li>ASP.NET</li><li>React</li><li>OLAP</li></ul>
+        <ul class="hl">
+          <li>ETL SSIS</li>
+          <li><span data-l="fr">Cube OLAP</span><span data-l="en">OLAP Cube</span></li>
+          <li>API ASP.NET</li>
+          <li><span data-l="fr">Interface React</span><span data-l="en">React interface</span></li>
+        </ul>
+        <button class="more" type="button"><span data-l="fr">Voir plus</span><span data-l="en">See more</span><svg class="i"><use href="#i-arrow"/></svg></button>
+      </article>
+
+      <article class="card lift proj reveal" data-cat="ia">
+        <h3><span data-l="fr">Fouille de données massives : prix parapharmacie</span><span data-l="en">Big Data Mining: Parapharmacy Pricing</span></h3>
+        <p class="psub"><span data-l="fr">Scraping, ML &amp; deep learning · Mastère 2025–2026</span><span data-l="en">Scraping, ML &amp; deep learning · Master's 2025–2026</span></p>
+        <p class="pdesc"><span data-l="fr">Pipeline complet sur des données réelles du marché tunisien : scraping d'un site de parapharmacie (≈ 3 000 produits), nettoyage, prédiction du prix par régression, puis classification des images produits en 4 macro-classes. Modèle déployé dans une interface Streamlit.</span><span data-l="en">End-to-end pipeline on real Tunisian market data: scraping a parapharmacy website (~3,000 products), cleaning, price prediction by regression, then product image classification into 4 macro-classes. Model deployed in a Streamlit interface.</span></p>
+        <ul class="tags"><li>Python</li><li>Web scraping</li><li>Scikit-learn</li><li>Gradient Boosting</li><li>MLP</li><li>MobileNetV2</li><li>Streamlit</li></ul>
+        <ul class="hl">
+          <li><span data-l="fr">Dataset construit par scraping</span><span data-l="en">Self-built scraped dataset</span></li>
+          <li><span data-l="fr">Random Forest vs Boosting vs MLP</span><span data-l="en">Random Forest vs Boosting vs MLP</span></li>
+          <li><span data-l="fr">Transfer learning : ~80 % d'accuracy</span><span data-l="en">Transfer learning: ~80% accuracy</span></li>
+          <li><span data-l="fr">Déploiement Streamlit</span><span data-l="en">Streamlit deployment</span></li>
+        </ul>
+        <button class="more" type="button"><span data-l="fr">Voir plus</span><span data-l="en">See more</span><svg class="i"><use href="#i-arrow"/></svg></button>
+      </article>
+      <article class="card lift proj reveal" data-cat="ia">
+        <h3><span data-l="fr">Détection d'obstacles par CNN</span><span data-l="en">Obstacle Detection with CNNs</span></h3>
+        <p class="psub"><span data-l="fr">Deep learning · Mastère 2025–2026</span><span data-l="en">Deep learning · Master's 2025–2026</span></p>
+        <p class="pdesc"><span data-l="fr">Classification d'images d'obstacles : d'un CNN simple à un modèle optimisé pas à pas (filtres, Batch Normalization, Dropout, profondeur, optimiseur), puis comparaison de quatre architectures. Le transfer learning avec MobileNetV2 atteint 96,5 % d'accuracy.</span><span data-l="en">Obstacle image classification: from a basic CNN to a step-by-step optimized model (filters, Batch Normalization, Dropout, depth, optimizer), then a comparison of four architectures. Transfer learning with MobileNetV2 reaches 96.5% accuracy.</span></p>
+        <ul class="tags"><li>Python</li><li>Deep learning</li><li>CNN</li><li>VGG-like</li><li>ResNet-like</li><li>MobileNetV2</li><li>Transfer learning</li></ul>
+        <ul class="hl">
+          <li><span data-l="fr">Optimisation itérative du CNN</span><span data-l="en">Iterative CNN tuning</span></li>
+          <li><span data-l="fr">4 architectures comparées</span><span data-l="en">4 architectures compared</span></li>
+          <li><span data-l="fr">De 64 % à 96,5 % d'accuracy</span><span data-l="en">From 64% to 96.5% accuracy</span></li>
+          <li><span data-l="fr">Analyse des matrices de confusion</span><span data-l="en">Confusion matrix analysis</span></li>
+        </ul>
+        <button class="more" type="button"><span data-l="fr">Voir plus</span><span data-l="en">See more</span><svg class="i"><use href="#i-arrow"/></svg></button>
+      </article>
+      <article class="card lift proj reveal" data-cat="reseau">
+        <h3><span data-l="fr">Messagerie TCP/UDP</span><span data-l="en">TCP/UDP Messaging App</span></h3>
+        <p class="psub"><span data-l="fr">Programmation réseau · Novembre 2025</span><span data-l="en">Network programming · November 2025</span></p>
+        <p class="pdesc"><span data-l="fr">Application de messagerie en Java bâtie directement sur les sockets, en TCP pour les échanges fiables et en UDP pour la diffusion multicast, avec gestion des connexions et tests de communication entre plusieurs clients.</span><span data-l="en">Java messaging app built directly on sockets — TCP for reliable exchanges, UDP for multicast broadcasting — with connection handling and multi-client communication tests.</span></p>
+        <ul class="tags"><li>Java</li><li>TCP</li><li>UDP</li><li>Sockets</li><li>Multicast</li></ul>
+        <ul class="hl">
+          <li><span data-l="fr">Protocoles TCP &amp; UDP</span><span data-l="en">TCP &amp; UDP protocols</span></li>
+          <li><span data-l="fr">Diffusion multicast</span><span data-l="en">Multicast broadcasting</span></li>
+          <li><span data-l="fr">Gestion des connexions</span><span data-l="en">Connection handling</span></li>
+          <li><span data-l="fr">Tests multi-clients</span><span data-l="en">Multi-client testing</span></li>
+        </ul>
+        <button class="more" type="button"><span data-l="fr">Voir plus</span><span data-l="en">See more</span><svg class="i"><use href="#i-arrow"/></svg></button>
+      </article>
+      <article class="card lift proj reveal" data-cat="ia">
+        <h3><span data-l="fr">Segmentation de clients</span><span data-l="en">Customer Segmentation</span></h3>
+        <p class="psub"><span data-l="fr">Clustering K-Means · Mai 2025</span><span data-l="en">K-Means clustering · May 2025</span></p>
+        <p class="pdesc"><span data-l="fr">Segmentation par K-Means, résultats validés avec Python, Orange et Weka, puis interface web de visualisation et de prédiction.</span><span data-l="en">K-Means segmentation validated with Python, Orange and Weka, plus a web interface for visualization and prediction.</span></p>
+        <ul class="tags"><li>Python</li><li>Scikit-learn</li><li>Flask</li><li>Machine learning</li></ul>
+        <ul class="hl">
+          <li>K-Means</li>
+          <li><span data-l="fr">Validation Orange &amp; Weka</span><span data-l="en">Orange &amp; Weka validation</span></li>
+          <li><span data-l="fr">Interface de prédiction</span><span data-l="en">Prediction interface</span></li>
+        </ul>
+        <button class="more" type="button"><span data-l="fr">Voir plus</span><span data-l="en">See more</span><svg class="i"><use href="#i-arrow"/></svg></button>
+      </article>
+
+      <article class="card lift proj reveal" data-cat="bi">
+        <h3><span data-l="fr">Tableau de bord démographique</span><span data-l="en">Demographic Dashboard</span></h3>
+        <p class="psub"><span data-l="fr">Entrepôt &amp; Power BI · Décembre 2024</span><span data-l="en">Warehouse &amp; Power BI · December 2024</span></p>
+        <p class="pdesc"><span data-l="fr">Intégration des données dans un entrepôt centralisé via SSIS, modélisation des relations et dashboard Power BI d'analyse des tendances.</span><span data-l="en">Data integrated into a central warehouse with SSIS, relationship modeling and a Power BI dashboard for trend analysis.</span></p>
+        <ul class="tags"><li>Power BI</li><li>SSIS</li><li>SQL Server</li><li>ETL</li></ul>
+        <ul class="hl">
+          <li><span data-l="fr">Intégration SSIS</span><span data-l="en">SSIS integration</span></li>
+          <li><span data-l="fr">Modélisation</span><span data-l="en">Data modeling</span></li>
+          <li><span data-l="fr">Analyse des tendances</span><span data-l="en">Trend analysis</span></li>
+        </ul>
+        <button class="more" type="button"><span data-l="fr">Voir plus</span><span data-l="en">See more</span><svg class="i"><use href="#i-arrow"/></svg></button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATION -->
+<section id="formation">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <h2><span data-l="fr">Formation</span><span data-l="en">Education</span></h2>
+      <p><span data-l="fr">Un parcours entre développement et ingénierie des données.</span><span data-l="en">A path combining software development and data engineering.</span></p>
+    </div>
+    <div class="edu">
+      <div>
+        <h3 class="col reveal"><svg class="i"><use href="#i-cap"/></svg><span data-l="fr">Diplômes</span><span data-l="en">Academic Degrees</span></h3>
+        <div class="card degree reveal"><div>
+          <h4><span data-l="fr">Cycle d'ingénieur — génie logiciel et informatique décisionnelle</span><span data-l="en">Engineering Degree — Software Engineering &amp; Business Intelligence</span></h4>
+          <span class="school"><span data-l="fr">IIT Sfax · cours du soir</span><span data-l="en">IIT Sfax · evening program</span></span></div>
+          <span class="pill">2024–<br>2027</span></div>
+        <div class="card degree reveal"><div>
+          <h4><span data-l="fr">Mastère professionnel en sciences et ingénierie des données</span><span data-l="en">Professional Master's in Data Science &amp; Engineering</span></h4>
+          <span class="school">FSEG Sfax</span></div>
+          <span class="pill">2024–<br>2026</span></div>
+        <div class="card degree reveal"><div>
+          <h4><span data-l="fr">Licence en sciences informatiques — big data et analyse de données</span><span data-l="en">Bachelor's in Computer Science — Big Data &amp; Data Analytics</span></h4>
+          <span class="school">ISIMS Sfax</span></div>
+          <span class="pill">2021–<br>2024</span></div>
+      </div>
+      <div>
+        <h3 class="col reveal"><svg class="i"><use href="#i-award"/></svg>Certifications</h3>
+        <a class="card lift cert reveal" href="https://cdoss.org/islem-hadj-kacem-4/" target="_blank" rel="noopener"><div><h4>Big Data Machine Learning with Apache Spark</h4><small>CDOSS · <span class="verify"><span data-l="fr">Vérifier le certificat</span><span data-l="en">Verify credential</span> ↗</span></small></div><span class="yr">2025</span></a>
+        <a class="card lift cert reveal" href="https://cdoss.org/islem-hadj-kacem-3/" target="_blank" rel="noopener"><div><h4>Big Data Analytics with Hive Query Language and Beeline</h4><small>CDOSS · <span class="verify"><span data-l="fr">Vérifier le certificat</span><span data-l="en">Verify credential</span> ↗</span></small></div><span class="yr">2025</span></a>
+        <a class="card lift cert reveal" href="https://cdoss.org/islem-hadj-kacem-2/" target="_blank" rel="noopener"><div><h4>Artificial Intelligence and Machine Learning Fundamentals</h4><small>CDOSS · <span class="verify"><span data-l="fr">Vérifier le certificat</span><span data-l="en">Verify credential</span> ↗</span></small></div><span class="yr">2025</span></a>
+        <a class="card lift cert reveal" href="https://cdoss.org/islem-hadj-kacem-/" target="_blank" rel="noopener"><div><h4>Hadoop Cluster Installation and Administration</h4><small>CDOSS · <span class="verify"><span data-l="fr">Vérifier le certificat</span><span data-l="en">Verify credential</span> ↗</span></small></div><span class="yr">2025</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPÉTENCES -->
+<section id="competences">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2><span data-l="fr">Compétences techniques</span><span data-l="en">Technical Expertise</span></h2>
+      <p><span data-l="fr">Du frontend à l'entrepôt de données.</span><span data-l="en">From the frontend to the data warehouse.</span></p>
+    </div>
+    <div class="skills">
+      <div class="card lift skill reveal"><h3><span class="ico"><svg class="i"><use href="#i-code"/></svg></span><span data-l="fr">Langages</span><span data-l="en">Programming Languages</span></h3>
+        <ul class="tags"><li>Python</li><li>Java</li><li>C#</li><li>C</li><li>PHP</li><li>JavaScript</li><li>TypeScript</li><li>SQL</li><li>R</li><li>HTML5</li><li>CSS3</li></ul></div>
+      <div class="card lift skill reveal"><h3><span class="ico"><svg class="i"><use href="#i-layers"/></svg></span><span data-l="fr">Web &amp; frameworks</span><span data-l="en">Web &amp; Frameworks</span></h3>
+        <ul class="tags"><li>React</li><li>Angular</li><li>ASP.NET Core</li><li>Spring Boot</li><li>Symfony</li><li>Laravel</li><li>Flask</li><li>Bootstrap</li><li>API REST</li></ul></div>
+      <div class="card lift skill reveal"><h3><span class="ico"><svg class="i"><use href="#i-chart"/></svg></span>Data &amp; BI</h3>
+        <ul class="tags"><li>Data warehouse</li><li>ETL</li><li>Talend</li><li>SSIS</li><li>SSAS</li><li>Power BI</li><li><span data-l="fr">Modélisation dimensionnelle</span><span data-l="en">Dimensional modeling</span></li></ul></div>
+      <div class="card lift skill reveal"><h3><span class="ico"><svg class="i"><use href="#i-cpu"/></svg></span><span data-l="fr">Big data &amp; IA</span><span data-l="en">Big Data &amp; AI</span></h3>
+        <ul class="tags"><li>Hadoop</li><li>Hive</li><li>Spark</li><li>Machine learning</li><li>Deep learning</li><li>LLM</li><li>RAG</li></ul></div>
+      <div class="card lift skill reveal"><h3><span class="ico"><svg class="i"><use href="#i-db"/></svg></span><span data-l="fr">Bases de données</span><span data-l="en">Databases</span></h3>
+        <ul class="tags"><li>MySQL</li><li>SQL Server</li><li>NoSQL</li></ul></div>
+      <div class="card lift skill reveal"><h3><span class="ico"><svg class="i"><use href="#i-tool"/></svg></span><span data-l="fr">Outils</span><span data-l="en">Tools</span></h3>
+        <ul class="tags"><li>Git</li><li>GitHub</li><li>Postman</li><li>Prompt engineering</li><li>Linux</li><li>Odoo</li></ul></div>
+      <div class="card lift skill reveal"><h3><span class="ico"><svg class="i"><use href="#i-globe"/></svg></span><span data-l="fr">Langues</span><span data-l="en">Languages</span></h3>
+        <ul class="tags"><li><span data-l="fr">Arabe</span><span data-l="en">Arabic</span></li><li><span data-l="fr">Français</span><span data-l="en">French</span></li><li><span data-l="fr">Anglais</span><span data-l="en">English</span></li><li><span data-l="fr">Espagnol</span><span data-l="en">Spanish</span></li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="c-wrap reveal">
+      <aside class="c-side">
+        <span class="c-kicker"><i></i><span data-l="fr">Disponible dès maintenant</span><span data-l="en">Available now</span></span>
+        <h2><span data-l="fr">Travaillons <em>ensemble</em></span><span data-l="en">Let's work <em>together</em></span></h2>
+        <p class="c-lead"><span data-l="fr">Je cherche une équipe où la data, l'automatisation et l'IA sont au cœur des projets. Je réponds sous 48&nbsp;h.</span><span data-l="en">I'm looking for a team where data, automation and AI are at the heart of the work. I reply within 48 hours.</span></p>
+        <ul class="c-list">
+          <li><a href="mailto:hadjkacemislem29@gmail.com"><span class="ci"><svg class="i"><use href="#i-mail"/></svg></span><span><small>Email</small><b>hadjkacemislem29@gmail.com</b></span></a></li>
+          <li><a href="tel:+21625222458"><span class="ci"><svg class="i"><use href="#i-phone"/></svg></span><span><small><span data-l="fr">Téléphone</span><span data-l="en">Phone</span></small><b>+216 25 222 458</b></span></a></li>
+          <li><div><span class="ci"><svg class="i"><use href="#i-pin"/></svg></span><span><small><span data-l="fr">Localisation</span><span data-l="en">Location</span></small><b><span data-l="fr">Sfax, Tunisie</span><span data-l="en">Sfax, Tunisia</span></b></span></div></li>
+        </ul>
+        <div class="c-social">
+          <a href="https://github.com/IslemHadjkacem" target="_blank" rel="noopener"><svg class="i"><use href="#i-github"/></svg>GitHub</a>
+        </div>
+      </aside>
+
+      <form class="cform" id="cform" novalidate>
+      <h3><span data-l="fr">Envoyez-moi un message</span><span data-l="en">Send me a message</span></h3>
+      <p class="lead"><span data-l="fr">Une offre, une question, un projet ? Écrivez-moi ici, je reçois votre message directement par email.</span><span data-l="en">A job offer, a question, a project? Write to me here and your message lands straight in my inbox.</span></p>
+
+      <!-- ⚠️ Remplacer par la clé reçue sur web3forms.com -->
+      <input type="hidden" name="access_key" value="c6b55a85-be4a-42a3-a9c4-0ed5c72081ce">
+      <input type="hidden" name="subject" value="Nouveau message depuis le portfolio">
+      <input type="hidden" name="from_name" value="Portfolio Islem Hadj Kacem">
+      <!-- Anti-spam (champ invisible) -->
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <div class="fgrid">
+        <div class="field">
+          <label for="f-name"><span data-l="fr">Nom</span><span data-l="en">Name</span></label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="100">
+        </div>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="150">
+        </div>
+        <div class="field full">
+          <label for="f-topic"><span data-l="fr">Objet</span><span data-l="en">Subject</span> <span class="opt"><span data-l="fr">(facultatif)</span><span data-l="en">(optional)</span></span></label>
+          <input id="f-topic" name="objet" type="text" maxlength="150">
+        </div>
+        <div class="field full">
+          <label for="f-msg">Message</label>
+          <textarea id="f-msg" name="message" required maxlength="5000"></textarea>
+        </div>
+      </div>
+
+      <div class="fbot">
+        <button class="btn btn-primary" type="submit"><svg class="i"><use href="#i-send"/></svg><span data-l="fr">Envoyer</span><span data-l="en">Send</span></button>
+        <p class="fmsg" id="fmsg" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <div class="f-id">
+        <div class="media" data-hint="IHK"><img src="images/isleemm.png" alt=""></div>
+        <div><b>Islem Hadj Kacem</b><span data-l="fr">Développeuse Full-Stack, Data &amp; BI</span><span data-l="en">Full-Stack, Data &amp; BI Developer</span></div>
+      </div>
+      <div class="f-contact">
+        <a href="mailto:hadjkacemislem29@gmail.com"><svg class="i"><use href="#i-mail"/></svg>hadjkacemislem29@gmail.com</a>
+        <a href="tel:+21625222458"><svg class="i"><use href="#i-phone"/></svg>+216 25 222 458</a>
+      </div>
+      <div class="f-social"><a href="https://github.com/IslemHadjkacem" target="_blank" rel="noopener" aria-label="GitHub"><svg class="i"><use href="#i-github"/></svg></a></div>
+    </div>
+    <div class="f-bot">
+      <span>© 2026 Islem Hadj Kacem. <span data-l="fr">Tous droits réservés.</span><span data-l="en">All rights reserved.</span></span>
+      <span data-l="fr">Conçu avec passion pour le développement et l'IA</span><span data-l="en">Crafted with passion for software and AI</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Fenêtre détail projet -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+  <div class="dialog">
+    <button class="close" type="button" aria-label="Fermer"><svg class="i"><use href="#i-x"/></svg></button>
+    <p class="eyebrow"><span data-l="fr">Projet académique</span><span data-l="en">Academic project</span></p>
+    <div id="m-body"></div>
+  </div>
+</div>
+
+<!-- Zoom image -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image agrandie">
+  <button type="button" data-close><span data-l="fr">Fermer</span><span data-l="en">Close</span></button>
+  <img src="" alt="">
+</div>
+
+<script>
+var root = document.documentElement;
+function store(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+/* Langue */
+var langBtns = document.querySelectorAll('[data-set-lang]');
+function setLang(l){
+  root.lang = l;
+  langBtns.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.setLang === l); });
+  document.title = l === 'en' ? 'Islem Hadj Kacem — Full-Stack, Data & BI Developer' : 'Islem Hadj Kacem — Développeuse Full-Stack, Data & BI';
+  store('lang', l);
+}
+langBtns.forEach(function(b){ b.addEventListener('click', function(){ setLang(b.dataset.setLang); }); });
+setLang(root.lang === 'en' ? 'en' : 'fr');
+
+/* Thème */
+document.getElementById('theme').addEventListener('click', function(){
+  var t = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', t); store('theme', t);
+});
+
+/* Barre de navigation */
+var nav = document.querySelector('.nav');
+window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', scrollY > 10); }, {passive:true});
+
+/* Médias absents : affiche le nom du fichier attendu */
+function watchMedia(scope){
+  scope.querySelectorAll('.media').forEach(function(box){
+    var m = box.querySelector('img, video'); if(!m) return;
+    var fail = function(){ box.setAttribute('data-empty','1'); box.classList.remove('zoomable'); };
+    m.addEventListener('error', fail);
+    if(m.tagName === 'IMG' && m.complete && m.naturalWidth === 0) fail();
+  });
+}
+watchMedia(document);
+
+/* Menu mobile */
+var burger = document.querySelector('.burger'), menu = document.getElementById('menu');
+function closeMenu(){ menu.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }
+burger.addEventListener('click', function(){ burger.setAttribute('aria-expanded', menu.classList.toggle('open')); });
+menu.addEventListener('click', function(e){ if(e.target.closest('a')) closeMenu(); });
+document.addEventListener('click', function(e){ if(!e.target.closest('.nav')) closeMenu(); });
+
+/* Lien actif + apparition au scroll */
+var links = [].slice.call(menu.querySelectorAll('a'));
+if('IntersectionObserver' in window){
+  links.forEach(function(a){
+    var id = a.getAttribute('href'), sec = id === '#top' ? document.querySelector('.hero') : document.querySelector(id);
+    if(!sec) return;
+    new IntersectionObserver(function(en){
+      if(en[0].isIntersecting) links.forEach(function(l){ l.classList.toggle('active', l === a); });
+    }, {rootMargin:'-45% 0px -50% 0px'}).observe(sec);
+  });
+  var ro = new IntersectionObserver(function(entries, obs){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('seen'); obs.unobserve(en.target); } });
+  }, {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(function(el){ ro.observe(el); });
+} else {
+  document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('seen'); });
+}
+
+/* Filtres projets */
+document.querySelectorAll('.filters button').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var f = btn.dataset.filter;
+    document.querySelectorAll('.filters button').forEach(function(b){ b.setAttribute('aria-pressed', b === btn); });
+    document.querySelectorAll('.proj').forEach(function(p){
+      p.hidden = !(f === 'tous' || (p.dataset.cat || '').split(' ').indexOf(f) > -1);
+    });
+  });
+});
+
+
+/* Cartes projets : « +N » pour les technologies non affichées */
+document.querySelectorAll('.proj .tags').forEach(function(ul){
+  var n = ul.children.length - 2;
+  if(n > 0){ var li = document.createElement('li'); li.className = 'plus'; li.textContent = '+' + n; ul.appendChild(li); }
+});
+
+/* Fenêtre détail projet */
+var modal = document.getElementById('modal'), mBody = document.getElementById('m-body'), lastBtn = null;
+function heading(fr, en){
+  var h = document.createElement('h4');
+  h.innerHTML = '<span data-l="fr">'+fr+'</span><span data-l="en">'+en+'</span>';
+  return h;
+}
+document.querySelectorAll('.proj .more').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var card = btn.closest('.proj'); lastBtn = btn;
+    mBody.innerHTML = '';
+    var t = card.querySelector('h3').cloneNode(true); t.id = 'm-title';
+    mBody.appendChild(t);
+    mBody.appendChild(card.querySelector('.psub').cloneNode(true));
+    var tpl = card.querySelector('template');
+    if(tpl) mBody.appendChild(tpl.content.cloneNode(true));
+    mBody.appendChild(card.querySelector('.pdesc').cloneNode(true));
+    mBody.appendChild(heading('Technologies','Technologies'));
+    mBody.appendChild(card.querySelector('.tags').cloneNode(true));
+    mBody.appendChild(heading('Points clés','Key highlights'));
+    mBody.appendChild(card.querySelector('.hl').cloneNode(true));
+    watchMedia(mBody);
+    modal.classList.add('open'); document.body.style.overflow = 'hidden';
+    modal.querySelector('.close').focus();
+  });
+});
+function closeModal(){
+  if(!modal.classList.contains('open')) return;
+  modal.classList.remove('open'); document.body.style.overflow = '';
+  if(lastBtn) lastBtn.focus();
+}
+modal.addEventListener('click', function(e){ if(e.target === modal || e.target.closest('.close')) closeModal(); });
+
+/* Zoom image */
+var lb = document.getElementById('lightbox'), lbImg = lb.querySelector('img');
+document.addEventListener('click', function(e){
+  if(e.target.closest('.nav-btn') || e.target.closest('.dots')) return;
+  var box = e.target.closest('.zoomable');
+  if(box){
+    var img = box.querySelector('img');
+    if(img && img.naturalWidth){ lbImg.src = img.src; lbImg.alt = img.alt; lb.classList.add('open'); }
+  }
+  if(e.target.closest('[data-close]') || e.target === lb) lb.classList.remove('open');
+});
+document.addEventListener('keydown', function(e){
+  if(e.key !== 'Escape') return;
+  if(lb.classList.contains('open')) lb.classList.remove('open'); else closeModal();
+});
+
+/* Carrousels */
+document.querySelectorAll('[data-slider]').forEach(function(sl){
+  var track = sl.querySelector('.slides'), n = track.children.length, i = 0;
+  var dots = sl.querySelector('.dots'), badge = document.createElement('div');
+  badge.className = 'count'; sl.appendChild(badge);
+  function go(x){
+    i = (x + n) % n;
+    track.style.transform = 'translateX(' + (-i * 100) + '%)';
+    [].forEach.call(dots.children, function(d, k){ d.setAttribute('aria-current', k === i); });
+    badge.textContent = (i + 1) + ' / ' + n;
+  }
+  for(var k = 0; k < n; k++){
+    (function(idx){
+      var d = document.createElement('button'); d.type = 'button';
+      d.setAttribute('aria-label', 'Image ' + (idx + 1));
+      d.addEventListener('click', function(){ go(idx); });
+      dots.appendChild(d);
+    })(k);
+  }
+  sl.querySelector('.prev').addEventListener('click', function(){ go(i - 1); });
+  sl.querySelector('.next').addEventListener('click', function(){ go(i + 1); });
+  var x0 = null;
+  sl.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+  sl.addEventListener('touchend', function(e){
+    if(x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if(Math.abs(dx) > 45) go(dx < 0 ? i + 1 : i - 1);
+    x0 = null;
+  });
+  go(0);
+});
+
+/* Formulaire de contact (Web3Forms → Gmail) */
+(function(){
+  var form = document.getElementById('cform'); if(!form) return;
+  var msg = document.getElementById('fmsg'), btn = form.querySelector('button[type="submit"]');
+  var T = {
+    fr:{ sending:'Envoi en cours…', ok:'Merci ! Votre message a bien été envoyé. Je vous réponds sous 48 h.',
+         invalid:'Merci de remplir votre nom, un email valide et votre message.',
+         err:"L'envoi a échoué. Écrivez-moi directement à hadjkacemislem29@gmail.com." },
+    en:{ sending:'Sending…', ok:'Thank you! Your message has been sent. I will reply within 48 hours.',
+         invalid:'Please fill in your name, a valid email and your message.',
+         err:'Sending failed. Please email me directly at hadjkacemislem29@gmail.com.' }
+  };
+  function say(key, cls){
+    var t = T[root.lang === 'en' ? 'en' : 'fr'];
+    msg.textContent = t[key]; msg.className = 'fmsg' + (cls ? ' ' + cls : '');
+  }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!form.checkValidity()){ say('invalid', 'err'); return; }
+    var data = {};
+    new FormData(form).forEach(function(v, k){ data[k] = v; });
+    if(data.objet) data.subject = 'Portfolio : ' + data.objet;
+    btn.disabled = true; say('sending');
+    fetch('https://api.web3forms.com/submit', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(data)
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(res && res.success){ say('ok', 'ok'); form.reset(); }
+      else { throw new Error(res && res.message); }
+    })
+    .catch(function(err){ console.warn('Web3Forms :', err); say('err', 'err'); })
+    .then(function(){ btn.disabled = false; });
+  });
+})();
+</script>
+</body>
+</html>
